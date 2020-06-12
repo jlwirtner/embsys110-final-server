@@ -34,6 +34,7 @@ api.post('/info', (req, res) => {
             notification: newNotification
         }
         req.app.settings.sensorHub.ctx.registeredSensors[index] = updateInfo
+        console.log(req.app.settings.sensorHub.ctx.registeredSensors)
         console.log("sending update request to sensor hub")
         console.log(updateInfo)
         //req.app.settings.sensorHub.raise(new SensorHubUpdateSensor(macAddress, newName, newNotification))
