@@ -1,11 +1,19 @@
 "use strict";
 let {SensorHubUpdateSensor} = require("../SensorHubInterface.js");
-let {Sensor} = require('../SensorHub.js')
+//import Sensor from '../SensorHub.js';
 let {fw, FW, log} = require('galliumstudio')
 let {APP} = require('../App.js')
 
 const express = require('express');
 const api = express.Router();
+
+class Sensor {
+    constructor(macAddress, name = 'New Sensor', notification = 'New Sensor has been triggered!') {
+        this.macAddress = macAddress
+        this.name = name
+        this.notification = notification
+    }
+}
 
 api.get('/', (req, res) => {
     var output = []

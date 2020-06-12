@@ -333,6 +333,6 @@ class SensorHub extends Hsm {
 }
 
 module.exports = {
+    Sensor,
     SensorHub,
-    Sensor
  }
