@@ -5,7 +5,6 @@ const api = express.Router();
 // const app = require('./app.js')
 
 api.get('/', (req, res) => {
-    console.log(req.app.settings.sensorHub.ctx.connectedSensors);
     var output = []
     var connectedMacs = [...req.app.settings.sensorHub.ctx.connectedSensors]
     for (var i = 0; i < connectedMacs.length; i++) {
@@ -15,6 +14,8 @@ api.get('/', (req, res) => {
             }
         }
     }
+    console.log("REPORTING CONNECTED SENSORS:")
+    console.log(output)
     res.send({connectedSensors: output});
 });
 
