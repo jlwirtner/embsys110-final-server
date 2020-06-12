@@ -46,8 +46,10 @@ var StructType = require('ref-struct')
 
 const STARTING_TIMEOUT_MS = 100
 const STOPPING_TIMEOUT_MS = 100
+const HEARTBEAT_TIMEOUT_MS = 30000000
 const SENSOR_CONNECTION_INDICATOR  = 'SENSOR-CONNECT'
 const SENSOR_SHOCK_EVENT_INDICATOR = 'SENSOR-SHOCK-EVENT'
+const SENSOR_HEARTBEAT_INDICATOR   = 'SENSOR-HEARTBEAT'
 
 class Fail extends ErrorEvt {
     constructor(error = FW.ERROR_UNSPEC, origin = FW.UNDEF, reason = FW.REASON_UNSPEC) {
@@ -81,6 +83,7 @@ class TcpConn extends Hsm {
             savedStopReq: null,
             startingTimer: new Timer(name, "StartingTimer"),
             stoppingTimer: new Timer(name, "StoppingTimer"),
+            timoutTimer: new Timer(name, "TimeoutTimer"),
             user: null,
             sock: null,
             error: null,
@@ -229,6 +232,7 @@ class TcpConn extends Hsm {
                                     this.log('sock closed')
                                     this.send(new Evt('SockOnClosed', this.name))
                                 })
+                                ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
                             },
                             on: {
                                 SockOnClosed: {
@@ -259,6 +263,10 @@ class TcpConn extends Hsm {
                                         if(message.includes(SENSOR_SHOCK_EVENT_INDICATOR)) {
                                             this.send(new SensorHubSensorShockEvent(ctx.sensorMacAddress), APP.SENSOR_HUB)
                                         }
+                                        if(message.includes(SENSOR_HEARTBEAT_INDICATOR)) {
+                                            ctx.timoutTimer.stop()
+                                            ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
+                                        }
                                         // @todo Add processing here.
                                         this.write("Received OK.")
                                     }
@@ -268,6 +276,14 @@ class TcpConn extends Hsm {
                                         this.event(e)
                                         this.log(`Sending ${e.data}`)
                                         this.write(e.data)
+                                    }
+                                },
+                                TimeoutTimer: {
+                                    actions: (ctx,e)=> {
+                                        this.event(e)
+                                        this.log("connection timed out - closing connection with sensor")
+                                        ctx.sock.close()
+                                        this.raise(new Evt('CloseSelf'))
                                     }
                                 },
                                 CloseSelf: {
