@@ -283,7 +283,12 @@ class TcpConn extends Hsm {
                                         this.event(e)
                                         this.log("connection timed out - closing connection with sensor")
                                         ctx.sock.destroy()
-                                        this.raise(new Evt('CloseSelf'))
+                                        // if(ctx.isSensorConnection) {
+                                        //     this.send(new SensorHubSensorDisconnect(ctx.sensorMacAddress), APP.SENSOR_HUB)
+                                        //     ctx.sensorMacAddress = null
+                                        //     ctx.isSensorConnection = false
+                                        // }
+                                        // this.raise(new Evt('CloseSelf'))
                                     }
                                 },
                                 CloseSelf: {
