@@ -317,6 +317,7 @@ class SensorHub extends Hsm {
     startRestApi() {
         console.log("Starting REST API...")
         exApp.set('sensorHub', this)
+        exApp.set('sensorHubRaise', this.raise)
         exApp.listen(config.port, () => {
             console.log(`API REST running in http://localhost:${config.port}`)
             //console.log(hsm)

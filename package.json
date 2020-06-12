@@ -29,6 +29,7 @@
   "bundleDependencies": false,
   "dependencies": {
     "apn": "^2.2.0",
+    "body-parser": "^1.19.0",
     "bonjour": "^3.5.0",
     "express": "^4.17.1",
     "galliumstudio": "0.0.3",

@@ -83,6 +83,15 @@ class SensorHubSensorShockEvent extends Evt {
     }
 }
 
+class SensorHubUpdateSensor extends Evt {
+    constructor(macAddress, name, notification, to = FW.UNDEF, from = FW.UNDEF, seq = 0) {
+        super('SensorHubSensorShockEvent', to, from, seq)
+        this.macAddress = macAddress
+        this.name = name
+        this.notification = notification
+    }
+}
+
 module.exports = {
     SensorHubStartReq,
     SensorHubStartCfm,
@@ -91,4 +100,5 @@ module.exports = {
     SensorHubSensorConnection,
     SensorHubSensorDisconnect,
     SensorHubSensorShockEvent,
+    SensorHubUpdateSensor,
  }
