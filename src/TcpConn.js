@@ -48,6 +48,7 @@ const STARTING_TIMEOUT_MS = 100
 const STOPPING_TIMEOUT_MS = 100
 const HEARTBEAT_TIMEOUT_MS = 30000
 const SENSOR_CONNECTION_INDICATOR  = 'SENSOR-CONNECT'
+const SENSOR_CONNECTION_HANDSHAKE  = 'SENSOR-CONNECTED'
 const SENSOR_SHOCK_EVENT_INDICATOR = 'SENSOR-SHOCK-EVENT'
 const SENSOR_HEARTBEAT_INDICATOR   = 'SENSOR-HEARTBEAT'
 
@@ -258,7 +259,7 @@ class TcpConn extends Hsm {
                                             ctx.sensorMacAddress = praseMacAddress(message)
                                             this.send(new SensorHubSensorConnection(ctx.sensorMacAddress), APP.SENSOR_HUB)
                                             this.raise(new TcpConnSendReq(this.name, this.name, 0, SENSOR_CONNECTION_INDICATOR + '\r'));
-                                            //this.write(SENSOR_CONNECTION_INDICATOR);
+                                            this.write(SENSOR_CONNECTION_HANDSHAKE);
                                         }
                                         if(message.includes(SENSOR_SHOCK_EVENT_INDICATOR)) {
                                             this.send(new SensorHubSensorShockEvent(ctx.sensorMacAddress), APP.SENSOR_HUB)
@@ -268,7 +269,7 @@ class TcpConn extends Hsm {
                                             ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
                                         }
                                         // @todo Add processing here.
-                                        this.write("Received OK.")
+                                        //this.write("Received OK.")
                                     }
                                 },
                                 TcpConnSendReq: {
