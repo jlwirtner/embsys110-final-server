@@ -32,7 +32,7 @@ api.post('/info', (req, res) => {
         var index = sensors.findIndex(o => o.macAddress === macAddress)
         console.log(index)
         var updateInfo = {
-            macAddress,
+            macAddress: macAddress,
             name: newName,
             notification: newNotification
         }
