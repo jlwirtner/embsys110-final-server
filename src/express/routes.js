@@ -22,12 +22,15 @@ api.get('/', (req, res) => {
 });
 
 api.post('/info', (req, res) => {
+    console.log(req.body)
     var macAddress = req.body.macAddress
     var newName = req.body.macAddress
     var newNotification = req.body.notification
     if (macAddress && newName && newNotification) {
         var sensors = req.app.settings.sensorHub.ctx.registeredSensors
+        console.log(sensors)
         var index = sensors.findIndex(o => o.macAddress === macAddress)
+        console.log(index)
         var updateInfo = {
             macAddress,
             name: newName,
