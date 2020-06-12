@@ -140,7 +140,7 @@ class SensorHub extends Hsm {
                         this.state('starting')
                         ctx.startingTimer.start(STARTING_TIMEOUT_MS)
                         // @todo Initialization of deviceId, connectedSensors, and registeredSensors
-                        startRestApi()
+                        this.startRestApi()
                         startBonjour()
                         //this.raise(new Evt('Done'))
                     },
