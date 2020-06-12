@@ -282,7 +282,7 @@ class TcpConn extends Hsm {
                                     actions: (ctx,e)=> {
                                         this.event(e)
                                         this.log("connection timed out - closing connection with sensor")
-                                        ctx.sock.close()
+                                        ctx.sock.destroy()
                                         this.raise(new Evt('CloseSelf'))
                                     }
                                 },
