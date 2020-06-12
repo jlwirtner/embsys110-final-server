@@ -1,5 +1,6 @@
 "use strict";
 let {SensorHubUpdateSensor} = require("../SensorHubInterface.js");
+let {Sensor} = require('../SensorHub.js')
 let {fw, FW, log} = require('galliumstudio')
 let {APP} = require('../App.js')
 
@@ -24,7 +25,7 @@ api.get('/', (req, res) => {
 api.post('/info', (req, res) => {
     console.log(req.body)
     var macAddress = req.body.macAddress
-    var newName = req.body.macAddress
+    var newName = req.body.name
     var newNotification = req.body.notification
     if (macAddress && newName && newNotification) {
         var sensors = req.app.settings.sensorHub.ctx.registeredSensors
@@ -36,7 +37,8 @@ api.post('/info', (req, res) => {
             name: newName,
             notification: newNotification
         }
-        req.app.settings.sensorHub.ctx.registeredSensors[index] = updateInfo
+        var newSensor = new Sensor(macAddress, newName, newNotification)
+        req.app.settings.sensorHub.ctx.registeredSensors[index] = newSensor
         console.log(req.app.settings.sensorHub.ctx.registeredSensors)
         console.log("sending update request to sensor hub")
         console.log(updateInfo)
