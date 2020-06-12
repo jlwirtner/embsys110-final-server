@@ -1,0 +1,50 @@
+{
+  "_from": "statenode-tcpserver",
+  "_id": "statenode-tcpserver@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-6spZFKZOdCwWpd005yg5LJcHm9t1VAlQ4Uay+uUWGXER+XdtNC+B8OMzVl9iwdplhcSqLV6DlUjhpAnEzz5X2Q==",
+  "_location": "/statenode-tcpserver",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "statenode-tcpserver",
+    "name": "statenode-tcpserver",
+    "escapedName": "statenode-tcpserver",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/statenode-tcpserver/-/statenode-tcpserver-1.0.0.tgz",
+  "_shasum": "98f9b375210f8802422c4590a8329451a648c68e",
+  "_spec": "statenode-tcpserver",
+  "_where": "/home/user/Projects/webserver/tmp",
+  "author": {
+    "name": "Gallium Studio LLC"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "apn": "^2.2.0",
+    "bonjour": "^3.5.0",
+    "express": "^4.17.1",
+    "galliumstudio": "0.0.3",
+    "keypress": "^0.2.1",
+    "multicast-dns": "^7.2.2",
+    "ref-struct": "^1.1.0"
+  },
+  "deprecated": false,
+  "description": "",
+  "devDependencies": {},
+  "keywords": [],
+  "license": "GPL-3.0",
+  "main": "src/main.js",
+  "name": "statenode-tcpserver",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
