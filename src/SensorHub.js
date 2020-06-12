@@ -50,16 +50,7 @@ const STOPPING_TIMEOUT_MS = 100
 const exApp = require('./express/app.js');
 const config = require('./express/configDomain.js');
 
-// function startRestApi(hsm) {
-//     console.log("Starting REST API...")
-//     exApp.listen(config.port, () => {
-//         console.log(`API REST running in http://localhost:${config.port}`)
-//         //console.log(hsm)
-//         hsm.send(new Evt('RestApiStarted'), hsm.name)
-//     })
-// }
-
-let options2 = {
+let bonjourOptions = {
     multicast: true, // use udp multicasting
     interface: '192.168.0.11', // explicitly specify a network interface. defaults to all
     port: 5353, // set the udp port
@@ -69,12 +60,7 @@ let options2 = {
     reuseAddr: true // set the reuseAddr option when creating the socket (requires node >=0.11.13)
 }
 
-var bonjour = require('bonjour')([options2]);
-
-function startBonjour() {
-    console.log("Starting Bonjour...")
-    bonjour.publish({name: 'shocksensor', type: 'shocksensor', port: 60002, txt: {yo:"sup"}})
-}
+var bonjour = require('bonjour')([bonjourOptions]);
 
 class Sensor {
     constructor(macAddress, name = 'New Sensor', notification = 'New Sensor has been triggered!') {
@@ -141,7 +127,7 @@ class SensorHub extends Hsm {
                         ctx.startingTimer.start(STARTING_TIMEOUT_MS)
                         // @todo Initialization of deviceId, connectedSensors, and registeredSensors
                         this.startRestApi()
-                        startBonjour()
+                        this.startBonjour()
                         //this.raise(new Evt('Done'))
                     },
                     onExit: (ctx, e)=>{ 
@@ -334,8 +320,14 @@ class SensorHub extends Hsm {
         exApp.listen(config.port, () => {
             console.log(`API REST running in http://localhost:${config.port}`)
             //console.log(hsm)
+            console.log(exApp.settings.sensorHub)
             this.send(new Evt('RestApiStarted'), this.name)
         })
+    }
+
+    startBonjour() {
+        console.log("Starting Bonjour...")
+        bonjour.publish({name: 'shocksensor', type: 'shocksensor', port: 60002, txt: {yo:"sup"}})
     }
 }
 
