@@ -50,14 +50,14 @@ const STOPPING_TIMEOUT_MS = 100
 const exApp = require('./express/app.js');
 const config = require('./express/configDomain.js');
 
-function startRestApi(hsm) {
-    console.log("Starting REST API...")
-    exApp.listen(config.port, () => {
-        console.log(`API REST running in http://localhost:${config.port}`)
-        //console.log(hsm)
-        hsm.send(new Evt('RestApiStarted'), hsm.name)
-    })
-}
+// function startRestApi(hsm) {
+//     console.log("Starting REST API...")
+//     exApp.listen(config.port, () => {
+//         console.log(`API REST running in http://localhost:${config.port}`)
+//         //console.log(hsm)
+//         hsm.send(new Evt('RestApiStarted'), hsm.name)
+//     })
+// }
 
 let options2 = {
     multicast: true, // use udp multicasting
@@ -140,7 +140,7 @@ class SensorHub extends Hsm {
                         this.state('starting')
                         ctx.startingTimer.start(STARTING_TIMEOUT_MS)
                         // @todo Initialization of deviceId, connectedSensors, and registeredSensors
-                        startRestApi(this)
+                        startRestApi()
                         startBonjour()
                         //this.raise(new Evt('Done'))
                     },
@@ -326,6 +326,16 @@ class SensorHub extends Hsm {
     write(msg) {
         this.log('write: ', msg)
         this.ctx.sock.write(msg)
+    }
+
+    startRestApi() {
+        console.log("Starting REST API...")
+        exApp.set('sensorHub', this)
+        exApp.listen(config.port, () => {
+            console.log(`API REST running in http://localhost:${config.port}`)
+            //console.log(hsm)
+            this.send(new Evt('RestApiStarted'), this.name)
+        })
     }
 }
 
