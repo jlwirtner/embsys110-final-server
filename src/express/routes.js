@@ -6,7 +6,7 @@ const api = express.Router();
 
 api.get('/', (req, res) => {
     console.log(req.app.settings.sensorHub.ctx.connectedSensors);
-    res.send({connectedSensors: req.app.settings.sensorHub.ctx.connectedSensors});
+    res.send({connectedSensors: [...req.app.settings.sensorHub.ctx.connectedSensors]});
 });
 
 module.exports = api;
