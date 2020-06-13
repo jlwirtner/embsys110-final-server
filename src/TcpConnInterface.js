@@ -88,6 +88,14 @@ class TcpConnSendReq extends Evt {
     }
 }
 
+class TcpConnSendIfConnectedTo extends Evt {
+    constructor(macAddress, data = null) {
+        super('TcpConnSendIfConnectedTo', FW.UNDEF, FW.UNDEF, 0)
+        this.macAddress = macAddress
+        this.data = data
+    }
+}
+
 module.exports = {
     TcpConnStartReq,
     TcpConnStartCfm,
@@ -97,4 +105,5 @@ module.exports = {
     TcpConnUseCfm,
     TcpConnDoneInd,
     TcpConnSendReq,
+    TcpConnSendIfConnectedTo
  }

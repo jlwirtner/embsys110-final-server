@@ -39,13 +39,15 @@
 let {Evt, ErrorEvt, Msg, fw, FW, Hsm, Timer, BufReader, BufWriter} = require('galliumstudio')
 let {SensorHubStartReq, SensorHubStartCfm, SensorHubStopReq, SensorHubStopCfm} = require("./SensorHubInterface.js")  
 let {ApnSrvSendPushNotification} = require("./ApnSrvInterface.js")
-let {APP} = require("./App.js")
+let {APP, app} = require("./App.js")
 let net = require('net')
 var ref = require('ref')
 var StructType = require('ref-struct')
 
 const STARTING_TIMEOUT_MS = 100
 const STOPPING_TIMEOUT_MS = 100
+
+const SESNOR_RESET_MSG = 'SENSOR-RESET**'
 
 const exApp = require('./express/app.js');
 const config = require('./express/configDomain.js');
@@ -253,6 +255,14 @@ class SensorHub extends Hsm {
                                 this.event(e)
                                 ctx.deviceId = e.deviceId
                                 this.raise(new Evt('DeviceConnected'))
+                            }
+                        },
+                        SensorHubSensorResetReq: {
+                            actions: (ctx, e)=> {
+                                this.event(e)
+                                for (let i=0; i < APP.TCP_CONN_CNT; i++) {
+                                    this.send(new TcpConnSendIfConnectedTo(e.macAddress, SENSOR_RESET_MSG), app.tcpConn(i))
+                                }
                             }
                         }
                     },

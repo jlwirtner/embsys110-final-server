@@ -283,6 +283,17 @@ class TcpConn extends Hsm {
                                         this.write(e.data)
                                     }
                                 },
+                                TcpConnSendIfConnectedTo: {
+                                    actions: (ctx, e)=> {
+                                        this.event(e)
+                                        if(e.macAdress === ctx.sensorMacAddress) {
+                                            this.log(`Sending ${e.data}`)
+                                            this.write(e.data)
+                                        } else {
+                                            this.log(`Not connecetd to ${e.macAdress}`)
+                                        }
+                                    }
+                                },
                                 TimeoutTimer: {
                                     actions: (ctx,e)=> {
                                         this.event(e)
