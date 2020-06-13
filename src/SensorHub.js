@@ -43,6 +43,7 @@ let {TcpConnSendIfConnectedTo} = require("./TcpConnInterface.js")
 let {APP, app} = require("./App.js")
 let net = require('net')
 var ref = require('ref')
+var fs = require('fs');
 var StructType = require('ref-struct')
 
 const STARTING_TIMEOUT_MS = 100
@@ -129,6 +130,8 @@ class SensorHub extends Hsm {
                         this.state('starting')
                         ctx.startingTimer.start(STARTING_TIMEOUT_MS)
                         // @todo Initialization of deviceId, connectedSensors, and registeredSensors
+                        let data = fs.readFileSync('registered.json')
+                        ctx.registeredSensors = JSON.parse(data)
                         this.startRestApi()
                         this.startBonjour()
                         //this.raise(new Evt('Done'))
@@ -225,6 +228,7 @@ class SensorHub extends Hsm {
                                 let alreadyRegistered = ctx.registeredSensors.some(sensor => sensor.macAddress === e.macAddress)
                                 if(!alreadyRegistered) {
                                     ctx.registeredSensors.push(new Sensor(e.macAddress))
+                                    this.saveRegisteredSensors()
                                 }
                                 ctx.connectedSensors.add(e.macAddress)
                                 this.raise(new Evt('SensorConnected'))
@@ -249,6 +253,7 @@ class SensorHub extends Hsm {
                                 this.log("old:", sensors[index])
                                 this.log("new:", newSensor)
                                 ctx.registeredSensors[index] = newSensor
+                                this.saveRegisteredSensors()
                             }
                         },
                         SensorHubUpdateDevice: {
@@ -345,6 +350,13 @@ class SensorHub extends Hsm {
     startBonjour() {
         console.log("Starting Bonjour...")
         bonjour.publish({name: 'shocksensor', type: 'shocksensor', port: 60002, txt: {yo:"sup"}})
+    }
+
+    saveRegisteredSensors() {
+        let data = JSON.stringify(this.ctx.registeredSensors)
+        fs.writeFile('registered.json', data, ()=>{
+            console.log('saved registered sensors')
+        })
     }
 }
 
