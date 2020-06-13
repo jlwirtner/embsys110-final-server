@@ -48,7 +48,7 @@ var StructType = require('ref-struct')
 const STARTING_TIMEOUT_MS = 100
 const STOPPING_TIMEOUT_MS = 100
 
-const SESNOR_RESET_MSG = 'SENSOR-RESET**'
+const SENSOR_RESET_MSG = 'SENSOR-RESET**'
 
 const exApp = require('./express/app.js');
 const config = require('./express/configDomain.js');
