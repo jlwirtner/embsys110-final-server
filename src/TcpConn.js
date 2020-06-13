@@ -286,11 +286,11 @@ class TcpConn extends Hsm {
                                 TcpConnSendIfConnectedTo: {
                                     actions: (ctx, e)=> {
                                         this.event(e)
-                                        if(e.macAdress === ctx.sensorMacAddress) {
+                                        if(e.macAddress === ctx.sensorMacAddress) {
                                             this.log(`Sending ${e.data}`)
                                             this.write(e.data)
                                         } else {
-                                            this.log(`Not connecetd to ${e.macAdress}`)
+                                            this.log(`Not connecetd to ${e.macAddress}`)
                                         }
                                     }
                                 },
