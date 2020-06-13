@@ -15,7 +15,7 @@ api.get('/', (req, res) => {
             }
         }
     }
-    console.log("REPORTING CONNECTED SENSORS:")
+    console.log("REST API: reporting connected sensors")
     console.log(output)
     res.send({connectedSensors: output});
 });
