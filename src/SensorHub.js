@@ -221,11 +221,6 @@ class SensorHub extends Hsm {
                                 this.event(e)
                                 let alreadyRegistered = ctx.registeredSensors.some(sensor => sensor.macAddress === e.macAddress)
                                 if(!alreadyRegistered) {
-                                    // let newSensor = {
-                                    //     macAddress: e.macAddress,
-                                    //     name: 'New Sensor',
-                                    //     notification: 'New Sensor has been triggered!'
-                                    // }
                                     ctx.registeredSensors.push(new Sensor(e.macAddress))
                                 }
                                 ctx.connectedSensors.add(e.macAddress)
