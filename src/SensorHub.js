@@ -241,6 +241,16 @@ class SensorHub extends Hsm {
                         SensorHubUpdateSensor: {
                             actions: (ctx, e)=>{
                                 this.event(e)
+                                let macAddress = e.macAddress
+                                let newName = e.name
+                                let newNotification = e.notification
+                                let sensors = ctx.registeredSensors
+                                let index = sensors.findIndex(o => o.macAddress === macAddress)
+                                let newSensor = new Sensor(macAddress, newName, newNotification)
+                                this.log("Updating sensor info")
+                                this.log("old:", sensors[index])
+                                this.log("new:", newSensor)
+                                ctx.registeredSensors[index] = newSensor
                             }
                         },
                         SensorHubUpdateDevice: {

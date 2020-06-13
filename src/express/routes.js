@@ -36,20 +36,20 @@ api.post('/info', (req, res) => {
     var newName = req.body.name
     var newNotification = req.body.notification
     if (macAddress && newName && newNotification) {
-        var sensors = req.app.settings.sensorHub.ctx.registeredSensors
-        console.log(sensors)
-        var index = sensors.findIndex(o => o.macAddress === macAddress)
-        console.log(index)
-        var updateInfo = {
-            macAddress: macAddress,
-            name: newName,
-            notification: newNotification
-        }
-        var newSensor = new Sensor(macAddress, newName, newNotification)
-        req.app.settings.sensorHub.ctx.registeredSensors[index] = newSensor
-        console.log(req.app.settings.sensorHub.ctx.registeredSensors)
+        // var sensors = req.app.settings.sensorHub.ctx.registeredSensors
+        // console.log(sensors)
+        // var index = sensors.findIndex(o => o.macAddress === macAddress)
+        // console.log(index)
+        // var updateInfo = {
+        //     macAddress: macAddress,
+        //     name: newName,
+        //     notification: newNotification
+        // }
+        // var newSensor = new Sensor(macAddress, newName, newNotification)
+        // req.app.settings.sensorHub.ctx.registeredSensors[index] = newSensor
+        // console.log(req.app.settings.sensorHub.ctx.registeredSensors)
         console.log("sending update request to sensor hub")
-        console.log(updateInfo)
+        // console.log(updateInfo)
         let name = req.app.settings.sensorHub.name
         req.app.settings.sensorHub.send(new SensorHubUpdateSensor(macAddress, newName, newNotification), name)
         

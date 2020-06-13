@@ -85,7 +85,7 @@ class SensorHubSensorShockEvent extends Evt {
 
 class SensorHubUpdateSensor extends Evt {
     constructor(macAddress, name, notification, to = FW.UNDEF, from = FW.UNDEF, seq = 0) {
-        super('SensorHubSensorShockEvent', to, from, seq)
+        super('SensorHubUpdateSensor', to, from, seq)
         this.macAddress = macAddress
         this.name = name
         this.notification = notification
