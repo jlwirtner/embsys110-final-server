@@ -50,7 +50,8 @@ api.post('/info', (req, res) => {
         console.log(req.app.settings.sensorHub.ctx.registeredSensors)
         console.log("sending update request to sensor hub")
         console.log(updateInfo)
-        //req.app.settings.sensorHub.raise(new SensorHubUpdateSensor(macAddress, newName, newNotification))
+        let name = req.app.settings.sensorHub.name
+        req.app.settings.sensorHub.send(new SensorHubUpdateSensor(macAddress, newName, newNotification), name)
         
         //fw.post(new SensorHubUpdateSensor(macAddress, newName, newNotification, APP.SENSOR_HUB))
         res.send('ok')

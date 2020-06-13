@@ -260,9 +260,13 @@ class TcpConn extends Hsm {
                                             this.send(new SensorHubSensorConnection(ctx.sensorMacAddress), APP.SENSOR_HUB)
                                             this.raise(new TcpConnSendReq(this.name, this.name, 0, SENSOR_CONNECTION_INDICATOR + '\r'));
                                             this.write(SENSOR_CONNECTION_HANDSHAKE);
+                                            ctx.timoutTimer.stop()
+                                            ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
                                         }
                                         if(message.includes(SENSOR_SHOCK_EVENT_INDICATOR)) {
                                             this.send(new SensorHubSensorShockEvent(ctx.sensorMacAddress), APP.SENSOR_HUB)
+                                            ctx.timoutTimer.stop()
+                                            ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
                                         }
                                         if(message.includes(SENSOR_HEARTBEAT_INDICATOR)) {
                                             ctx.timoutTimer.stop()
