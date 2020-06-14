@@ -193,9 +193,7 @@ class ApnSrv extends Hsm {
                                 this.event(e)
                                 console.log(e)
                           
-                                console.log(e.notification)
                                 var note = new apn.Notification();
-
                                 note.expiry = Math.floor(Date.now() / 1000) + 3600;
                                 note.sound = "ping.aiff";
                                 note.alert = e.notification;
