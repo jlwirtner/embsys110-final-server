@@ -1,5 +1,5 @@
 "use strict";
-let {SensorHubUpdateSensor, SensorHubSensorResetReq} = require("../SensorHubInterface.js");
+let {SensorHubUpdateSensor, SensorHubSensorResetReq, SensorHubUpdateDevice, SensorHubRemoveDevice} = require("../SensorHubInterface.js");
 
 const express = require('express');
 const api = express.Router();
