@@ -332,6 +332,15 @@ class SensorHub extends Hsm {
                                         this.send(new ApnSrvSendPushNotification(ctx.deviceId, message), APP.APN_SRV)
                                     }
                                 },
+                                SensorHubSensorTestEvent: {
+                                    actions: (ctx, e)=> {
+                                        this.event(e)
+                                        let sensor = ctx.registeredSensors.filter(sensor => sensor.macAddress = e.macAddress)
+                                        let message = sensor[0].notification
+                                        let testMessage = '*TEST* ' + message
+                                        this.send(new ApnSrvSendPushNotification(ctx.deviceId, testMessage), APP.APN_SRV)
+                                    }
+                                },
                                 NotReady: {
                                     target: 'notReadyToNotify',
                                     actions: (ctx, e)=> {

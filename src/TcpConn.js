@@ -38,7 +38,7 @@
 
 let {Evt, ErrorEvt, Msg, fw, FW, Hsm, Timer, BufReader, BufWriter} = require('galliumstudio')
 let {TcpConnStartReq, TcpConnStartCfm, TcpConnStopReq, TcpConnStopCfm, TcpConnUseReq, TcpConnUseCfm, TcpConnDoneInd, TcpConnSendReq} = require("./TcpConnInterface.js")  
-let {SensorHubSensorConnection, SensorHubSensorDisconnect, SensorHubSensorShockEvent} = require('./SensorHubInterface.js')
+let {SensorHubSensorConnection, SensorHubSensorDisconnect, SensorHubSensorShockEvent, SensorHubSensorTestEvent} = require('./SensorHubInterface.js')
 let {app, APP} = require("./App.js")
 let net = require('net')
 var ref = require('ref')
@@ -50,6 +50,7 @@ const HEARTBEAT_TIMEOUT_MS = 30000
 const SENSOR_CONNECTION_INDICATOR  = 'SENSOR-CONNECT'
 const SENSOR_CONNECTION_HANDSHAKE  = 'SENSOR-CONNECTED\r\n'
 const SENSOR_SHOCK_EVENT_INDICATOR = 'SENSOR-SHOCK-EVENT'
+const SENSOR_TEST_EVENT_INDICATOR  = 'SENSOR-TEST-EVENT'
 const SENSOR_HEARTBEAT_INDICATOR   = 'SENSOR-HEARTBEAT'
 
 class Fail extends ErrorEvt {
@@ -265,6 +266,11 @@ class TcpConn extends Hsm {
                                         }
                                         if(message.includes(SENSOR_SHOCK_EVENT_INDICATOR)) {
                                             this.send(new SensorHubSensorShockEvent(ctx.sensorMacAddress), APP.SENSOR_HUB)
+                                            ctx.timoutTimer.stop()
+                                            ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
+                                        }
+                                        if(message.includes(SENSOR_TEST_EVENT_INDICATOR)) {
+                                            this.send(new SensorHubSensorTestEvent(ctx.sensorMacAddress), APP.SENSOR_HUB)
                                             ctx.timoutTimer.stop()
                                             ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
                                         }
