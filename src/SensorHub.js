@@ -238,6 +238,9 @@ class SensorHub extends Hsm {
                             actions: (ctx, e)=>{
                                 this.event(e)
                                 ctx.connectedSensors.delete(e.macAddress)
+                                if(ctx.connectedSensors.size === 0) {
+                                    this.raise(new Evt('NotReady'))
+                                }
                             }
                         },
                         SensorHubUpdateSensor: {
@@ -318,6 +321,12 @@ class SensorHub extends Hsm {
                                         let sensor = ctx.registeredSensors.filter(sensor => sensor.macAddress = e.macAddress)
                                         let message = sensor[0].notification
                                         this.send(new ApnSrvSendPushNotification(ctx.deviceId, message), APP.APN_SRV)
+                                    }
+                                },
+                                NotReady: {
+                                    target: 'notReadyToNotify',
+                                    actions: (ctx, e)=> {
+                                        this.event(e)
                                     }
                                 }
                             }
