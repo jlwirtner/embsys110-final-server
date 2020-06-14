@@ -266,6 +266,15 @@ class SensorHub extends Hsm {
                                 this.raise(new Evt('DeviceConnected'))
                             }
                         },
+                        SensorHubRemoveDevice: {
+                            actions: (ctx, e)=>{
+                                this.event(e)
+                                if(ctx.deviceId === e.deviceId) {
+                                    ctx.deviceId = null
+                                    this.raise(new Evt('NotReady'))
+                                }
+                            }
+                        },
                         SensorHubSensorResetReq: {
                             actions: (ctx, e)=> {
                                 this.event(e)

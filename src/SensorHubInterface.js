@@ -99,6 +99,20 @@ class SensorHubSensorResetReq extends Evt {
     }
 }
 
+class SensorHubUpdateDevice extends Evt {
+    constructor(deviceId, to = FW.UNDEF, from = FW.UNDEF, seq = 0) {
+        super('SensorHubUpdateDevice', to, from, seq)
+        this.deviceId = deviceId
+    }
+}
+
+class SensorHubRemoveDevice extends Evt {
+    constructor(deviceId, to = FW.UNDEF, from = FW.UNDEF, seq = 0) {
+        super('SensorHubRemoveDevice', to, from, seq)
+        this.deviceId = deviceId
+    }
+}
+
 module.exports = {
     SensorHubStartReq,
     SensorHubStartCfm,
@@ -109,4 +123,6 @@ module.exports = {
     SensorHubSensorShockEvent,
     SensorHubUpdateSensor,
     SensorHubSensorResetReq,
+    SensorHubUpdateDevice,
+    SensorHubRemoveDevice
  }
