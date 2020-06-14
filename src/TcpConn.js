@@ -233,7 +233,7 @@ class TcpConn extends Hsm {
                                     this.log('sock closed')
                                     this.send(new Evt('SockOnClosed', this.name))
                                 })
-                                ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
+                                //ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
                             },
                             on: {
                                 SockOnClosed: {
