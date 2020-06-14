@@ -48,4 +48,30 @@ api.post('/sensor-reset', (req, res) => {
     }
 });
 
+api.post('/update-device', (req, res) => {
+    console.log("POST: /update-device")
+    let deviceId = req.body.deviceId
+    if(deviceId) {
+        console.log("REST API: sending device update request")
+        let name = req.app.settings.sensorHub.name
+        req.app.settings.sensorHub.send(new SensorHubUpdateDevice(deviceId), name)
+        res.send('ok')
+    } else {
+        res.status(400).send("request did not contain required data")
+    }
+});
+
+api.post('/remove-device', (req, res) => {
+    console.log("POST: /remove-device")
+    let deviceId = req.body.deviceId
+    if(deviceId) {
+        console.log("REST API: sending device remove request")
+        let name = req.app.settings.sensorHub.name
+        req.app.settings.sensorHub.send(new SensorHubRemoveDevice(deviceId), name)
+        res.send('ok')
+    } else {
+        res.status(400).send("request did not contain required data")
+    }
+});
+
 module.exports = api;
