@@ -258,7 +258,7 @@ class TcpConn extends Hsm {
                                             ctx.isSensorConnection = true
                                             ctx.sensorMacAddress = praseMacAddress(message)
                                             this.send(new SensorHubSensorConnection(ctx.sensorMacAddress), APP.SENSOR_HUB)
-                                            this.raise(new TcpConnSendReq(this.name, this.name, 0, SENSOR_CONNECTION_INDICATOR + '\r'));
+                                            //this.raise(new TcpConnSendReq(this.name, this.name, 0, SENSOR_CONNECTION_INDICATOR + '\r'));
                                             this.write(SENSOR_CONNECTION_HANDSHAKE);
                                             ctx.timoutTimer.stop()
                                             ctx.timoutTimer.start(HEARTBEAT_TIMEOUT_MS)
